@@ -1,0 +1,6 @@
+{
+  "name": "학생 홈페이지 경진대회 심사 포털",
+  "description": "1~30번 학생의 홈페이지 URL 제출, 심사위원 등록 및 루브릭 평가, 1·2·3등 수상 순위와 전체 통계를 실시간으로 제공하는 경진대회 심사 플랫폼입니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

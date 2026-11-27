@@ -1,0 +1,250 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized competition administrator record.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the administrator."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin"],
+          "description": "Administrative role identifier."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when admin record was created."
+        }
+      },
+      "required": ["uid", "role", "createdAt"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "A numbered student slot (1 to 30) and their submitted homepage URL.",
+      "type": "object",
+      "properties": {
+        "studentNumber": {
+          "type": "integer",
+          "description": "Student roster number from 1 to 30."
+        },
+        "studentName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "Display name of the student."
+        },
+        "projectTitle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Title of the student homepage project."
+        },
+        "homepageUrl": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 300,
+          "pattern": "^https?://[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(:[0-9]{1,5})?(/.*)?$",
+          "description": "Publicly accessible HTTP/HTTPS URL of the student homepage."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Short summary of the student website."
+        },
+        "submittedByUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "UID of the user who registered this student slot."
+        },
+        "submittedByName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "Display name of the submitter."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of initial submission."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of latest update."
+        }
+      },
+      "required": [
+        "studentNumber",
+        "studentName",
+        "projectTitle",
+        "homepageUrl",
+        "description",
+        "submittedByUid",
+        "submittedByName",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Judge": {
+      "title": "Judge",
+      "description": "Registered competition judge profile (without PII).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the registered judge."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "Public display name of the judge."
+        },
+        "affiliation": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "Department, school, or organization of the judge."
+        },
+        "specialty": {
+          "type": "string",
+          "maxLength": 40,
+          "description": "Judging focus area (e.g., UI/UX, Frontend, Accessibility)."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active"],
+          "description": "Active status of the judge."
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of judge registration."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last profile update."
+        }
+      },
+      "required": [
+        "uid",
+        "displayName",
+        "affiliation",
+        "specialty",
+        "status",
+        "registeredAt",
+        "updatedAt"
+      ]
+    },
+    "Evaluation": {
+      "title": "Evaluation",
+      "description": "Rubric evaluation score submitted by a registered judge for a student.",
+      "type": "object",
+      "properties": {
+        "studentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2,
+          "pattern": "^([1-9]|[12][0-9]|30)$",
+          "description": "Document ID of the evaluated student (1-30)."
+        },
+        "studentNumber": {
+          "type": "integer",
+          "description": "Numeric student slot (1-30)."
+        },
+        "judgeUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "UID of the judge submitting this evaluation."
+        },
+        "judgeName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "Display name of the judge."
+        },
+        "designScore": {
+          "type": "integer",
+          "description": "Visual design & UI/UX score (0-25)."
+        },
+        "creativityScore": {
+          "type": "integer",
+          "description": "Creativity & planning score (0-25)."
+        },
+        "functionalityScore": {
+          "type": "integer",
+          "description": "Technical implementation & interaction score (0-25)."
+        },
+        "contentScore": {
+          "type": "integer",
+          "description": "Content quality & web accessibility score (0-25)."
+        },
+        "totalScore": {
+          "type": "integer",
+          "description": "Sum of all four rubric criteria (0-100)."
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Optional written review comment from the judge."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when evaluation was first submitted."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when evaluation was last updated."
+        }
+      },
+      "required": [
+        "studentId",
+        "studentNumber",
+        "judgeUid",
+        "judgeName",
+        "designScore",
+        "creativityScore",
+        "functionalityScore",
+        "contentScore",
+        "totalScore",
+        "comment",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Competition administrators."
+    },
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Student homepage submissions indexed by slot number 1 to 30."
+    },
+    "/judges/{judgeId}": {
+      "schema": { "$ref": "#/entities/Judge" },
+      "description": "Registered competition judges indexed by Firebase Auth UID."
+    },
+    "/evaluations/{evaluationId}": {
+      "schema": { "$ref": "#/entities/Evaluation" },
+      "description": "Judge evaluations indexed deterministically as {judgeUid}_{studentId}."
+    }
+  }
+}
